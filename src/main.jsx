@@ -24,10 +24,10 @@ class Main extends Component {
     const { name } = this.state;
     return (
       <div>
-        <App name="Virat Kohli" designation="Software Engineer" />
+        <App name={name} designation="Software Engineer" />
         {/* this is instance of App1 component */}
         {/* const app1 = new App1({ name: name, designation: "Indian Caption"}) */}
-        <App1 name={name} designation="Indian Caption" />
+        {name === "Rohit Sharma" && <App1 name={name} designation="Indian Caption" />}
 
         {/* <App1 name="Rishab Panth" designation="Wicket keeper" /> */}
 

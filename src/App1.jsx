@@ -1,4 +1,6 @@
 import React, { Component, createRef } from "react";
+import { PureComponent } from "react";
+import shallowCompare from "react-addons-shallow-compare";
 
 // properties
 // method
@@ -18,6 +20,11 @@ import React, { Component, createRef } from "react";
 // -> render
 
 // Updating
+// getDerivedStateFromProps
+// shouldComponentUpdate / PureComponent / memo
+// render
+// getSnapshotBeforeUpdate
+// componentDidUpdate
 
 // UnMounting
 
@@ -26,7 +33,7 @@ import React, { Component, createRef } from "react";
 // Props are immutable
 //
 
-class App1 extends Component {
+class App1 extends PureComponent {
   // base on props assign new state value
   // can call only once
   h1Ref = createRef();
@@ -39,6 +46,7 @@ class App1 extends Component {
       counter: 0,
       greet: `Hello, ${props.name}`,
       comment: null,
+      list: [],
     };
 
     // this.h1Ref = createRef();
@@ -57,9 +65,16 @@ class App1 extends Component {
     };
   }
 
+  mouseMove = () => {
+    console.log("mouse Move...");
+  };
   // call only once Like constructor
   async componentDidMount() {
     console.time("findElement");
+    document.addEventListener("mousemove", this.mouseMove);
+
+    this.interval = setInterval(() => { console.log("interval") }, 1000)
+
     // console.log("componentDidMount", document.getElementById("heading"))
     this.h1Ref.current.style.color = "red";
     this.counterRef.current.style.color = "blue";
@@ -69,11 +84,45 @@ class App1 extends Component {
       const res = await fetch(
         "https://jsonplaceholder.typicode.com/comments/1"
       );
-      const json = awahttps://jsonplaceholder.typicode.com/comments/1it res.json();
+      const json = res.json();
       this.setState({ comment: json });
       console.log(json);
     } catch (error) {}
   }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousemove", this.mouseMove)
+    clearInterval(this.interval)
+  }
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    // if (prevProps.list.length < this.props.list.length) {
+    //   const list = this.listRef.current;
+    //   const snapshot = list.scrollHeight - list.scrollTop;
+    //   return snapshot;
+    // }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // 10 record
+    // 12 records
+
+    // if (snapshot !== null) {
+    //   const list = this.listRef.current;
+    //   list.scrollTop = list.scrollHeight - snapshot;
+    // }
+
+    var randomColor = Math.floor(Math.random() * 16777215).toString(16);
+    this.h1Ref.current.style.color = `#${randomColor}`;
+  }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return shallowCompare(this, nextProps, nextState);
+  //   // if(this.props !== nextProps || this.state !== nextState) {
+  //   //   return true
+  //   // }
+  //   // return false;
+  // }
 
   increment = () => {
     this.setState(({ counter }) => {
@@ -89,7 +138,7 @@ class App1 extends Component {
 
   // render html into DOM
   render() {
-    console.log("render");
+    console.log("render App1");
     // console.log("render", document.getElementById("heading"))
     const { designation } = this.props;
     const { counter, greet, comment } = this.state;
