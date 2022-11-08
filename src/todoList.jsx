@@ -1,28 +1,18 @@
 import React, { memo } from "react";
+import { TodoContext } from "./context/todoContext";
 import TodoItem from "./todoItem";
 
-const TodoList = ({ todoList, filterType, toggleComplete, deleteTodo }) => {
+const TodoList = () => {
   console.log("TodoList render");
   return (
     <div className="w-full flex-1">
-      {todoList.map((todoItem) => {
-        if (
-          (filterType === "pending" && !todoItem.isDone) ||
-          (filterType === "completed" && todoItem.isDone) ||
-          filterType === "all"
-        ) {
-          return (
-            <TodoItem
-              key={todoItem.id}
-              todoItem={todoItem}
-              toggleComplete={toggleComplete}
-              deleteTodo={deleteTodo}
-            />
-          );
-        } else {
-          return null;
+      <TodoContext.Consumer>
+        {({ todoList }) =>
+          todoList.map((todoItem) => (
+            <TodoItem key={todoItem.id} todoItem={todoItem} />
+          ))
         }
-      })}
+      </TodoContext.Consumer>
     </div>
   );
 };

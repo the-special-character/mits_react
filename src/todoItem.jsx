@@ -1,14 +1,19 @@
 import React, { memo } from "react";
+import { TodoContext } from "./context/todoContext";
 
-const TodoItem = ({ todoItem, toggleComplete, deleteTodo }) => {
+const TodoItem = ({ todoItem }) => {
   console.log("todo item render");
   return (
     <div className="flex m-4 items-center">
-      <input
-        type="checkbox"
-        checked={todoItem.isDone}
-        onChange={() => toggleComplete(todoItem)}
-      />
+      <TodoContext.Consumer>
+        {({ toggleComplete }) => (
+          <input
+            type="checkbox"
+            checked={todoItem.isDone}
+            onChange={() => toggleComplete(todoItem)}
+          />
+        )}
+      </TodoContext.Consumer>
       <p
         className="flex-1 px-4"
         style={{
@@ -17,13 +22,17 @@ const TodoItem = ({ todoItem, toggleComplete, deleteTodo }) => {
       >
         {todoItem.text}
       </p>
-      <button
-        type="button"
-        className="btn"
-        onClick={() => deleteTodo(todoItem)}
-      >
-        Delete
-      </button>
+      <TodoContext.Consumer>
+        {({ deleteTodo }) => (
+          <button
+            type="button"
+            className="btn"
+            onClick={() => deleteTodo(todoItem)}
+          >
+            Delete
+          </button>
+        )}
+      </TodoContext.Consumer>
     </div>
   );
 };

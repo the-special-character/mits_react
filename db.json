@@ -1,0 +1,34 @@
+{
+  "todoList": [
+    {
+      "text": "learn react",
+      "isDone": true,
+      "id": 2
+    },
+    {
+      "text": "added through api",
+      "isDone": true,
+      "id": 3
+    },
+    {
+      "text": "asdf",
+      "isDone": false,
+      "id": 4
+    },
+    {
+      "text": "asdf",
+      "isDone": false,
+      "id": 5
+    },
+    {
+      "text": "asdf",
+      "isDone": false,
+      "id": 6
+    },
+    {
+      "text": "asdf",
+      "isDone": false,
+      "id": 7
+    }
+  ]
+}
